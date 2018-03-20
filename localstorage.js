@@ -1,25 +1,25 @@
 /**********************************************************************************
-* (c) 2017, Nathanael Anderson.
-* Licensed under the MIT license.
-*
-* Version 1.1.5                                        nathan@master-technology.com
-**********************************************************************************/
+ * (c) 2017, Nathanael Anderson.
+ * Licensed under the MIT license.
+ *
+ * Version 1.1.5                                        nathan@master-technology.com
+ **********************************************************************************/
 'use strict';
 
 const FileSystemAccess = require('file-system/file-system-access').FileSystemAccess;
 
 // So that code that is looking for the "Storage" object will pass its check
 if (!global.Storage) {
-    global.Storage = function Storage() { }
+    global.Storage = function Storage() {}
 }
 
 if (!global.localStorage) {
-    let localStorageData = {};
-    let localStorageTimeout = null;
+    var localStorageData = {};
+    var localStorageTimeout = null;
 
-    const internalSaveData = function() {
-        let fsa = new FileSystemAccess();
-        let fileName = fsa.getDocumentsFolderPath() + "/localStorage.db";
+    const internalSaveData = function () {
+        var fsa = new FileSystemAccess();
+        var fileName = fsa.getDocumentsFolderPath() + "/localStorage.db";
         try {
             fsa.writeText(fileName, JSON.stringify(localStorageData));
         } catch (err) {
@@ -29,27 +29,26 @@ if (!global.localStorage) {
 
     };
 
-    const saveData = function()  {
+    const saveData = function () {
         if (localStorageTimeout !== null) {
             clearTimeout(localStorageTimeout);
         }
         localStorageTimeout = setTimeout(internalSaveData, 250);
     };
 
-    const loadData = function() {
-        let fsa = new FileSystemAccess();
-        let fileName = fsa.getDocumentsFolderPath() + "/localStorage.db";
+    const loadData = function () {
+        var fsa = new FileSystemAccess();
+        var fileName = fsa.getDocumentsFolderPath() + "/localStorage.db";
         if (!fsa.fileExists(fileName)) {
             return;
         }
 
-        let data;
+        var data;
         try {
-            let textData = fsa.readText(fileName);
+            var textData = fsa.readText(fileName);
             data = JSON.parse(textData);
             localStorageData = data;
-        }
-        catch (err) {
+        } catch (err) {
             console.log("localStorage: error reading storage, Error: ", err);
         }
     };
@@ -64,9 +63,11 @@ if (!global.localStorage) {
             }
             return null;
         },
-        key: function(id) {
+        key: function (id) {
             const keys = Object.keys(localStorageData);
-            if (id >= keys.length) { return null; }
+            if (id >= keys.length) {
+                return null;
+            }
             return keys[id];
         },
         setItem: function (name, value) {
@@ -75,7 +76,7 @@ if (!global.localStorage) {
         },
         removeItem: function (name) {
             if (localStorageData[name]) {
-                delete localStorageData[name];
+                devare localStorageData[name];
                 saveData();
             }
         },
@@ -85,7 +86,7 @@ if (!global.localStorage) {
         }
     };
     Object.defineProperty(global.localStorage, "length", {
-        get: function() {
+        get: function () {
             return (Object.keys(localStorageData).length);
         },
         enumerable: true,
@@ -95,7 +96,7 @@ if (!global.localStorage) {
 
 
 if (!global.sessionStorage) {
-    let sessionStorageData = {};
+    var sessionStorageData = {};
 
     global.sessionStorage = {
         getItem: function (name) {
@@ -104,9 +105,11 @@ if (!global.sessionStorage) {
             }
             return null;
         },
-        key: function(id) {
+        key: function (id) {
             const keys = Object.keys(sessionStorageData);
-            if (id >= keys.length) { return null; }
+            if (id >= keys.length) {
+                return null;
+            }
             return keys[id];
         },
         setItem: function (name, value) {
@@ -114,7 +117,7 @@ if (!global.sessionStorage) {
         },
         removeItem: function (name) {
             if (sessionStorageData[name]) {
-                delete sessionStorageData[name];
+                devare sessionStorageData[name];
             }
         },
         clear: function () {
@@ -122,7 +125,7 @@ if (!global.sessionStorage) {
         }
     };
     Object.defineProperty(global.sessionStorage, "length", {
-        get: function() {
+        get: function () {
             return (Object.keys(sessionStorageData).length);
         },
         enumerable: true,
